@@ -1,0 +1,362 @@
+<!-- =========================================
+index.html
+Cinematic Gym Landing Page (Template)
+- Hero video autoplay (muted)
+- “Hype Mode” music toggle (user-initiated)
+- Fire/particle overlay (CSS + canvas)
+- PR Wall grid + modal video player
+- Scroll reveal animations (IntersectionObserver)
+Save alongside: styles.css, script.js
+========================================= -->
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Invicta Gym — Cinematic Template</title>
+
+  <!-- Link external CSS -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <!-- ==============
+  Sticky Header / Nav
+  ============== -->
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="Home">
+        <span class="logo" aria-hidden="true"></span>
+        <span class="brand-text">Invicta Gym</span>
+      </a>
+
+      <nav aria-label="Main navigation">
+        <ul class="nav-list">
+          <li><a href="#prwall">PR Wall</a></li>
+          <li><a href="#programs">Programs</a></li>
+          <li><a href="#pricing">Membership</a></li>
+          <li><a class="btn primary" href="#contact">Book a Tour</a></li>
+        </ul>
+      </nav>
+
+      <!-- Mobile hamburger (shows on small screens) -->
+      <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Mobile menu panel -->
+    <div class="mobile-menu" data-mobile-menu>
+      <a href="#prwall">PR Wall</a>
+      <a href="#programs">Programs</a>
+      <a href="#pricing">Membership</a>
+      <a class="btn primary" href="#contact">Book a Tour</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ==============
+    HERO (Cinematic)
+    ============== -->
+    <section class="hero">
+      <!-- Animated particles canvas (behind overlay text) -->
+      <canvas class="fx-canvas" data-fx-canvas aria-hidden="true"></canvas>
+
+      <!-- Anime-ish background vibe (safe: abstract gradient + shapes) -->
+      <div class="anime-bg" aria-hidden="true"></div>
+
+      <!-- Video background -->
+      <video
+        class="hero-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster="assets/hero-poster.jpg"
+      >
+        <!-- Replace with your own file, or keep the placeholder -->
+        <source src="assets/hero.mp4" type="video/mp4" />
+      </video>
+
+      <!-- Dark overlay for readability -->
+      <div class="hero-overlay" aria-hidden="true"></div>
+
+      <div class="container hero-content">
+        <div class="hero-card reveal">
+          <p class="kicker">TRAINING ARC: BEGIN</p>
+          <h1>Hit PRs. <span class="glow">Become the hero.</span></h1>
+          <p class="muted">
+            Cinematic gym site template: video hero, PR wall, scroll reveals, and a music toggle that feels like a power-up.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn primary" href="#pricing">See Memberships</a>
+            <a class="btn" href="#prwall">Watch PRs</a>
+          </div>
+
+          <!-- Hype Mode (Music Toggle) -->
+          <div class="hype-row">
+            <button class="btn hype" data-audio-toggle>
+              <span class="dot" aria-hidden="true"></span>
+              <span data-audio-label>Hype Mode: OFF</span>
+            </button>
+
+            <!-- Audio is opt-in (browsers block autoplay audio) -->
+            <audio data-audio preload="none">
+              <source src="assets/hype.mp3" type="audio/mpeg" />
+            </audio>
+
+            <span class="muted small">Tap to play/stop music</span>
+          </div>
+
+          <!-- Quick stats -->
+          <div class="stats">
+            <div class="stat">
+              <p class="stat-num">24/7</p>
+              <p class="muted small">Access</p>
+            </div>
+            <div class="stat">
+              <p class="stat-num">+PR</p>
+              <p class="muted small">Community</p>
+            </div>
+            <div class="stat">
+              <p class="stat-num">Coach</p>
+              <p class="muted small">Guidance</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right side: a “hero highlight” panel -->
+        <aside class="hero-side reveal">
+          <div class="card glass">
+            <p class="tag">Today’s Challenge</p>
+            <h3>Deadlift Ladder</h3>
+            <p class="muted">Warm-up → 3 heavy sets → back-off set. Track it. Improve it.</p>
+            <div class="mini">
+              <span class="pill">Strength</span>
+              <span class="pill">Discipline</span>
+              <span class="pill">Consistency</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ==============
+    PR WALL (Grid + Modal)
+    ============== -->
+    <section id="prwall" class="section">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2>PR Wall</h2>
+          <p class="muted">Click a clip to watch the moment.</p>
+        </div>
+
+        <!-- Cards: each has data-video, data-title, data-subtitle -->
+        <div class="grid pr-grid">
+          <button class="pr-card reveal"
+            data-open-modal
+            data-video="assets/pr1.mp4"
+            data-title="Mikey — Bench PR"
+            data-subtitle="225 x 3 • Clean rep speed">
+            <span class="pr-badge">BENCH</span>
+            <span class="pr-main">225 x 3</span>
+            <span class="muted small">Tap to watch</span>
+          </button>
+
+          <button class="pr-card reveal"
+            data-open-modal
+            data-video="assets/pr2.mp4"
+            data-title="Angela — Squat PR"
+            data-subtitle="185 x 5 • Depth locked in">
+            <span class="pr-badge">SQUAT</span>
+            <span class="pr-main">185 x 5</span>
+            <span class="muted small">Tap to watch</span>
+          </button>
+
+          <button class="pr-card reveal"
+            data-open-modal
+            data-video="assets/pr3.mp4"
+            data-title="Alex — Deadlift PR"
+            data-subtitle="315 x 1 • Smooth pull">
+            <span class="pr-badge">DEADLIFT</span>
+            <span class="pr-main">315 x 1</span>
+            <span class="muted small">Tap to watch</span>
+          </button>
+
+          <button class="pr-card reveal"
+            data-open-modal
+            data-video="assets/pr4.mp4"
+            data-title="Group — Conditioning"
+            data-subtitle="Finisher • No quit energy">
+            <span class="pr-badge">CONDITION</span>
+            <span class="pr-main">FINISHER</span>
+            <span class="muted small">Tap to watch</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============
+    PROGRAMS
+    ============== -->
+    <section id="programs" class="section">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2>Programs</h2>
+          <p class="muted">Pick your path. We guide the arc.</p>
+        </div>
+
+        <div class="grid three">
+          <article class="card reveal">
+            <p class="tag">Strength</p>
+            <h3>Build Power</h3>
+            <p class="muted">Progressive overload, form checks, and repeatable structure.</p>
+          </article>
+
+          <article class="card reveal">
+            <p class="tag">Fat Loss</p>
+            <h3>Cut Without Chaos</h3>
+            <p class="muted">Conditioning + lifting + habits that survive real life.</p>
+          </article>
+
+          <article class="card reveal">
+            <p class="tag">Coaching</p>
+            <h3>Guided Training</h3>
+            <p class="muted">Weekly check-ins, plan adjustments, and accountability.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============
+    PRICING
+    ============== -->
+    <section id="pricing" class="section">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2>Membership</h2>
+          <p class="muted">Keep pricing clean even if the site is cinematic.</p>
+        </div>
+
+        <div class="grid three">
+          <div class="card price reveal">
+            <h3>Basic</h3>
+            <p class="big">$25 <span class="muted small">/mo</span></p>
+            <ul class="list">
+              <li>Open gym access</li>
+              <li>Monthly check-in</li>
+              <li>Locker rooms</li>
+            </ul>
+            <a class="btn" href="#contact">Ask Basic</a>
+          </div>
+
+          <div class="card price highlight reveal">
+            <h3>Standard</h3>
+            <p class="big">$45 <span class="muted small">/mo</span></p>
+            <ul class="list">
+              <li>Everything in Basic</li>
+              <li>2 group classes/week</li>
+              <li>Starter program</li>
+            </ul>
+            <a class="btn primary" href="#contact">Choose Standard</a>
+          </div>
+
+          <div class="card price reveal">
+            <h3>Premium</h3>
+            <p class="big">$99 <span class="muted small">/mo</span></p>
+            <ul class="list">
+              <li>Everything in Standard</li>
+              <li>1 PT session/week</li>
+              <li>Habit coaching</li>
+            </ul>
+            <a class="btn" href="#contact">Talk Premium</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============
+    CONTACT
+    ============== -->
+    <section id="contact" class="section">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2>Contact</h2>
+          <p class="muted">Book a tour. Start the arc.</p>
+        </div>
+
+        <div class="grid two">
+          <div class="card reveal">
+            <h3>Message us</h3>
+            <form action="" method="post">
+              <label>
+                Name
+                <input type="text" name="name" placeholder="Your name" required />
+              </label>
+
+              <label>
+                Email
+                <input type="email" name="email" placeholder="you@email.com" required />
+              </label>
+
+              <label>
+                Goal
+                <select name="goal">
+                  <option>Fat loss</option>
+                  <option>Strength</option>
+                  <option>Build muscle</option>
+                  <option>Consistency</option>
+                </select>
+              </label>
+
+              <label>
+                Message
+                <textarea name="message" placeholder="Tell us what you want to accomplish…"></textarea>
+              </label>
+
+              <button class="btn primary" type="submit">Send</button>
+              <p class="muted small">Connect the form later (Netlify Forms / Formspree / backend).</p>
+            </form>
+          </div>
+
+          <aside class="card reveal">
+            <h3>Visit</h3>
+            <p class="muted">
+              <strong>Address:</strong> 123 Iron Street, Alamo, TX<br>
+              <strong>Phone:</strong> (956) 555-0123<br>
+              <strong>Hours:</strong> Mon–Fri 5am–10pm, Sat–Sun 7am–8pm
+            </p>
+            <div class="map-placeholder" aria-hidden="true">
+              <p class="muted small">Map placeholder (embed later)</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==============
+  MODAL (PR Video)
+  ============== -->
+  <div class="modal" data-modal aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-label="PR video">
+      <button class="modal-close" data-close-modal aria-label="Close">✕</button>
+
+      <h3 class="modal-title" data-modal-title>Title</h3>
+      <p class="muted small" data-modal-subtitle>Subtitle</p>
+
+      <video class="modal-video" controls playsinline preload="metadata" data-modal-video>
+        <source src="" type="video/mp4" />
+      </video>
+    </div>
+  </div>
+
+  <!-- External JS -->
+  <script src="script.js"></script>
+</body>
+</html>
